@@ -40,12 +40,13 @@ public class Account {
 	//encrypted pin
 	private String hashedpassword;
 	@Transient
-	//Account owners
+	//Account owners, titled
 	private List<Customer> owners;
 	private List<Customer> authorities;
 	
+	//Maximum amount
 	private Double maxAuthAmount;
-	
+	//Amount lefr
 	private Date amountLeftReload;
 	
 	//Type account
@@ -56,15 +57,15 @@ public class Account {
 	private Boolean offer = false;
 	//Number monthly movements
 	private int monthMoves;
-	//if 
+	//Record withdrawal date 
 	private Date witdrawalDay;
-	//
+	//Record deposit date
 	private Date depositDay;
-	
+	//Current Balance
 	private Double amountLeft = 0.00;
-	
+	//Date modify
 	private Date modify;
-	
+	//Date of creation
 	private Date createAt;
 	
 }
