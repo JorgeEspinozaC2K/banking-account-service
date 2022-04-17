@@ -1,4 +1,4 @@
-package com.banking.account.service.app.Controller;
+package com.banking.account.service.app.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.banking.account.service.app.Service.AccountService;
 import com.banking.account.service.app.model.Account;
+import com.banking.account.service.app.service.AccountService;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -18,14 +18,18 @@ import reactor.core.publisher.Mono;
 
 public class AccountController {
 
+	//Dependency injection required for the class work
 	@Autowired
 	private AccountService accountService;
 	
+	
 	@GetMapping
+	//This method displays all the information from the account database
 	public Flux<Account> index() {
 		return accountService.findAll();
 	}
 	
+	//This method save or update a record from the account database
 	@PostMapping("/save")
 	public Mono<Account> save(@RequestBody Account account)	{
 		return accountService.save(account);

@@ -1,11 +1,11 @@
-package com.banking.account.service.app.ServiceImpl;
+package com.banking.account.service.app.serviceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.banking.account.service.app.Repository.AccountRepository;
-import com.banking.account.service.app.Service.AccountService;
 import com.banking.account.service.app.model.Account;
+import com.banking.account.service.app.repository.AccountRepository;
+import com.banking.account.service.app.service.AccountService;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

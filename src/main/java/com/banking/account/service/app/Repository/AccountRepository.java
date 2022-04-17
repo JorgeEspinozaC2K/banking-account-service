@@ -1,4 +1,4 @@
-package com.banking.account.service.app.Repository;
+package com.banking.account.service.app.repository;
 
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 
