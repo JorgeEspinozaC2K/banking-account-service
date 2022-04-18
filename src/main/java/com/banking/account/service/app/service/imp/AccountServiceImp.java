@@ -1,4 +1,4 @@
-package com.banking.account.service.app.serviceImpl;
+package com.banking.account.service.app.service.imp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-public class AccountServiceImpl implements AccountService {
+public class AccountServiceImp implements AccountService {
 
 	@Autowired
 	//dependency injection required for the class work
