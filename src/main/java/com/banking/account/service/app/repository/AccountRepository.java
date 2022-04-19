@@ -31,9 +31,27 @@ public interface AccountRepository extends ReactiveMongoRepository<Account, Stri
 	* */
 	public Flux<Account> findByTributaryIdentifier(Integer tributaryIdentifier);
 	
-	public Flux<Account> findByAuthoritiesByPersonalIdentifier(Integer personalIdentifier);
+	/**
+	 * EN: This method find all accounsts that are associayed with the id number 
+	 * ES: Este método encuentra todas las cuentas empresariales a los que se esta asociado con su número de identifación
+	 * @param personalIdentifier Integer
+	 * @return flux type Customer
+	 */
+	public Flux<Account> findByAuthoritiesPersonalIdentifier(Integer personalIdentifier);
 	
-	public Flux<Account> findByOwnersByPersonalIdentifier(Integer personalIdentifier);
+	/**
+	 * EN: This method returns all the accounts of an owners filtered by their identification number
+	 * ES: Este metodo retorna las cuentas de un propietario filtrado por su número de identificación
+	 * @param personalIdentifier integer
+	 * @return flux type account
+	 */
+	public Flux<Account> findByOwnersPersonalIdentifier(Integer personalIdentifier);
 	
+	/**
+	 * EN: This method finds the details of a bank account
+	 * ES: Este metodo encuentra los datos de una cuenta bancaria
+	 * @param accountNumber
+	 * @return Mono type account
+	 */
 	public Mono<Account> findByAccountNumber(Long accountNumber);
 }
