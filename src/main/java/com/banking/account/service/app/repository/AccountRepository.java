@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import com.banking.account.service.app.model.Account;
 
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public interface AccountRepository extends ReactiveMongoRepository<Account, String>{
 
@@ -28,5 +29,11 @@ public interface AccountRepository extends ReactiveMongoRepository<Account, Stri
 	* @param tributaryIdentifier Integer
 	* @return Flux type Customer
 	* */
-	public Flux<Account> findByTributaryIdentifier(int tributaryIdentifier);
+	public Flux<Account> findByTributaryIdentifier(Integer tributaryIdentifier);
+	
+	public Flux<Account> findByAuthoritiesByPersonalIdentifier(Integer personalIdentifier);
+	
+	public Flux<Account> findByOwnersByPersonalIdentifier(Integer personalIdentifier);
+	
+	public Mono<Account> findByAccountNumber(Long accountNumber);
 }

@@ -1,5 +1,7 @@
 package com.banking.account.service.app.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +20,8 @@ import reactor.core.publisher.Mono;
 
 public class AccountController {
 
+	private static final Logger log = LoggerFactory.getLogger(AccountController.class);
+	
 	//Dependency injection required for the class work
 	@Autowired
 	private AccountService accountService;

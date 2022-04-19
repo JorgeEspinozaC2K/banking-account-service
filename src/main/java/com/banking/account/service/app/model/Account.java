@@ -30,7 +30,7 @@ public class Account {
 	private boolean legalAccount = false;
 	//In case of legalCustomer was true, this attribute shouldn't be empty
 	//En caso de que el atributo legalCustomer fuese verdadero, este atributo no deberia estar vacio
-	private int tributaryIdentifier;
+	private Integer tributaryIdentifier;
 	//Number account
 	private Long accountNumber;
 	//Dollar or soles
@@ -56,7 +56,7 @@ public class Account {
 	//Temporary promotion
 	private Boolean offer = false;
 	//Number monthly movements
-	private int monthMoves;
+	private Integer monthMoves;
 	//Record withdrawal date 
 	private Date witdrawalDay;
 	//Record deposit date
