@@ -20,7 +20,6 @@ import reactor.core.publisher.Mono;
 
 public class AccountController {
 
-	private static final Logger log = LoggerFactory.getLogger(AccountController.class);
 	
 	//Dependency injection required for the class work
 	@Autowired
