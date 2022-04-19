@@ -25,12 +25,6 @@ public class Account {
 	
 	@Id
 	private String id;
-	//This define if the customer is a natural person or a legal person
-	//Define si el cliente es una persona natural o una persona jurídica
-	private boolean legalAccount = false;
-	//In case of legalCustomer was true, this attribute shouldn't be empty
-	//En caso de que el atributo legalCustomer fuese verdadero, este atributo no deberia estar vacio
-	private Integer tributaryIdentifier;
 	//Number account
 	private Long accountNumber;
 	//Dollar or soles
