@@ -1,8 +1,11 @@
 package com.banking.account.service.app.service.imp;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.banking.account.service.app.controller.AccountController;
 import com.banking.account.service.app.model.Account;
 import com.banking.account.service.app.repository.AccountRepository;
 import com.banking.account.service.app.service.AccountService;
@@ -13,6 +16,8 @@ import reactor.core.publisher.Mono;
 @Service
 public class AccountServiceImp implements AccountService {
 
+	private static final Logger log = LoggerFactory.getLogger(AccountServiceImp.class);
+	
 	@Autowired
 	//dependency injection required for the class work
 	private AccountRepository accountRepository;
