@@ -7,8 +7,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.banking.account.service.app.entity.Customer;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,8 +34,8 @@ public class Account {
 	private String hashedpassword;
 	@Transient
 	//Account owners, titled
-	private List<Customer> owners;
-	private List<Customer> authorities;
+	private List<String> owners;
+	private List<String> authorities;
 	
 	//Maximum amount
 	private Double maxAuthAmount;

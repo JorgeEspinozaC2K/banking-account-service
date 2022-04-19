@@ -11,6 +11,8 @@ public class Customer {
 	private String name;
 	private String lastName;
 	private int personalIdentifier;
+	private Integer tributaryIdentifier;
+	private Boolean isTributary;
 	private String email;
 	private Date createAt = new Date();
 	private Date updateAt;
