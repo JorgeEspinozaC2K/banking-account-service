@@ -1,13 +1,8 @@
 package com.banking.account.service.app.model;
 
 import java.util.Date;
-import java.util.List;
-
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import com.banking.account.service.app.entity.Customer;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,15 +24,15 @@ public class Account {
 	//Number account
 	private Long accountNumber;
 	//Dollar or soles
-	private int moneyType;
+	private Integer moneyType;
 	// verification pin
 	private String password;
 	//encrypted pin
 	private String hashedpassword;
-	@Transient
+	
 	//Account owners, titled
-	private List<Customer> owners;
-	private List<Customer> authorities;
+	private String owners;
+	private String authorities;
 	
 	//Maximum amount
 	private Double maxAuthAmount;
@@ -45,7 +40,7 @@ public class Account {
 	private Date amountLeftReload;
 	
 	//Type account
-	private int productType;
+	private Integer productType;
 	//Dependency injection
 	private Restriction restrictions;
 	//Temporary promotion

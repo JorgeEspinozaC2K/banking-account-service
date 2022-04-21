@@ -11,7 +11,6 @@ public interface AccountRepository extends ReactiveMongoRepository<Account, Stri
 
 	/**
 	* EN: This method find all the customers depending of they status of legal customer.
-	*
 	* ES: Este método encuentra a todos los clientes dependiendo de su estatus como
 	* cliente legal.
 	*
