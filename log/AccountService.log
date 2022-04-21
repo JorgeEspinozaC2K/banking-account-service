@@ -1641,3 +1641,4 @@ Caused by: javax.management.InstanceAlreadyExistsException: org.springframework.
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1800) ~[spring-beans-5.3.18.jar:5.3.18]
 	... 112 common frames omitted
 
+2022-04-20 23:54:50.184  INFO 12536 --- [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
