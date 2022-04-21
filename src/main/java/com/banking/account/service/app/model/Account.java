@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
@@ -32,7 +31,6 @@ public class Account {
 	private String password;
 	//encrypted pin
 	private String hashedpassword;
-	@Transient
 	//Account owners, titled
 	private List<String> owners;
 	private List<String> authorities;
