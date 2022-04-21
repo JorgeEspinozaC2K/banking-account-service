@@ -25,21 +25,10 @@ public class Account {
 
 	//Number account
 	private Long accountNumber;
-	//Dollar or soles
-	private Integer moneyType;
-	// verification pin
-	private String password;
-	//encrypted pin
-	private String hashedpassword;
 	
 	//Account owners, titled
 	private List<String> owners;
 	private List<String> authorities;
-	
-	//Maximum amount
-	private Double maxAuthAmount;
-	//Amount left
-	private Date amountLeftReload;
 	
 	//Type account
 	private Integer productType;
@@ -59,5 +48,4 @@ public class Account {
 	private Date modify;
 	//Date of creation
 	private Date createAt;
-	
 }

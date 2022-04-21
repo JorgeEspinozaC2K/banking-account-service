@@ -22,7 +22,7 @@ public class Restriction {
 	
 	private String name;
 	
-	private int knownAs;
+	private Integer knownAs;
 	
 	private Boolean offer;
 	
@@ -30,7 +30,7 @@ public class Restriction {
 	
 	private Boolean hasMaxMove;
 	
-	private int maxMovements;
+	private Integer maxMovements;
 	
 	private Boolean hasSpecificDay;
 	

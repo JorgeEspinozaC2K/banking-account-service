@@ -36,7 +36,31 @@ public class AccountServiceImp implements AccountService {
 	@Override
 	//returns a saved record
 	public Mono<Account> save(Account account) {
+		
+	  if (account.getId() != null) {
+		  return accountRepository.findById(account.getId())
+				  .defaultIfEmpty(new Account())
+				  .flatMap(_account -> {
+			if (_account.getId() == null) {
+				return Mono.error(new InterruptedException("Can't update this account"));
+			} else {
+				account.setOffer(_account.getOffer());
+				account.setAccountNumber(_account.getAccountNumber());
+				account.setOwners(_account.getOwners());
+				account.setAuthorities(_account.getAuthorities());
+				account.setMonthMoves(_account.getMonthMoves());
+				account.setWitdrawalDay(_account.getWitdrawalDay());
+				account.setDepositDay(_account.getDepositDay());
+				account.setCreateAt(_account.getCreateAt());
+				return accountRepository.save(account);
+			}
+			}).onErrorResume(_ex ->{
+				log.error(_ex.getMessage());
+				return Mono.empty();
+			});
+	}else {
 		return accountRepository.save(account);
+		}
 	}
 
 	@Override
