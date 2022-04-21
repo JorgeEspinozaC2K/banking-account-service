@@ -32,4 +32,11 @@ public interface AccountService {
 	 * @return Mono Void account
 	 */
 	public Mono<Void> delete(Account account);
+	
+	/**
+	 * 
+	 * @param customer
+	 * @return
+	 */
+	public Flux<Account> findByCustomerId(String customerId);
 }

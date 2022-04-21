@@ -44,4 +44,18 @@ public class AccountServiceImp implements AccountService {
 	public Mono<Void> delete(Account account) {
 		return accountRepository.delete(account);
 	}
+
+	@Override
+	public Flux<Account> findByCustomerId(String customerId) {
+		return accountRepository.findByCustomerId(customerId)
+				.defaultIfEmpty(new Account())
+				.flatMap(_account -> _account.getId() == null ?
+						Mono.error(new InterruptedException("Not found")):
+						Mono.just(_account)
+						)
+				.onErrorResume(_ex ->{
+					log.error(_ex.getMessage());
+					return Mono.empty();
+				});
+	}
 }

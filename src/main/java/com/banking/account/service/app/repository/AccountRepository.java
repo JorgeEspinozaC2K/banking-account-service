@@ -4,6 +4,7 @@ import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 
 import com.banking.account.service.app.model.Account;
 
+
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -32,4 +33,11 @@ public interface AccountRepository extends ReactiveMongoRepository<Account, Stri
 	 * @return Mono type account
 	 */
 	public Mono<Account> findByAccountNumber(Long accountNumber);
+	
+	/**
+	 * 
+	 * @param customer
+	 * @return
+	 */
+	public Flux<Account> findByCustomerId(String customerId);
 }
