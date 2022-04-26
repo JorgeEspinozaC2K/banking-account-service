@@ -39,4 +39,6 @@ public interface AccountService {
 	 * @return
 	 */
 	public Flux<Account> findByCustomerId(String customerId);
+	
+	public Flux<Account> findByOwners(String owners);
 }

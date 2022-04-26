@@ -1,5 +1,7 @@
 package com.banking.account.service.app.service.imp;
 
+import java.nio.channels.InterruptedByTimeoutException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +79,23 @@ public class AccountServiceImp implements AccountService {
 						Mono.error(new InterruptedException("Not found")):
 						Mono.just(_account)
 						)
+				.onErrorResume(_ex ->{
+					log.error(_ex.getMessage());
+					return Mono.empty();
+				});
+	}
+
+	@Override
+	public Flux<Account> findByOwners(String owners) {
+		return accountRepository.findByOwners(owners)
+				.defaultIfEmpty(new Account())
+				.flatMap(_account ->{
+					if (_account.getOwners()==null) {
+						return Mono.error(new InterruptedException("the owner field cannot be empty"));
+					}else {
+						return Mono.just(_account);
+					}
+				})
 				.onErrorResume(_ex ->{
 					log.error(_ex.getMessage());
 					return Mono.empty();
