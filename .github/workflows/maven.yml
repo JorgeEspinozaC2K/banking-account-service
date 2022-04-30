@@ -23,7 +23,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: clear with maven
-      run: mvn clear
+      run: mvn clean
     - name: compile with maven
       run: mvn compile
     - name: Build with Maven
