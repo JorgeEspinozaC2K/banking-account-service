@@ -1,5 +1,8 @@
 package com.banking.account.service.app.service;
 
+import java.time.LocalDate;
+
+import com.banking.account.service.app.entity.Card;
 import com.banking.account.service.app.model.Account;
 
 import reactor.core.publisher.Flux;
@@ -40,5 +43,13 @@ public interface AccountService {
 	 */
 	public Flux<Account> findByCustomerId(String customerId);
 	
-	public Flux<Account> findByOwners(String owners);
+	public Flux<Account> findByCreateAtBetween(LocalDate createAtF,LocalDate createAtL);
+	
+	public Mono<Card> linkAccountToNewCard(String accountId, String customerId);
+	
+	public Flux<Card> linkAccountToExistingCards(String accountId, String customerId);
+	
+	public Mono<Double> amountConsult(String accountId);
+	
+	public Mono<Double> amountUpdate(String accountId, String customerId, Double amountChange, Integer operation, String destinyAccountId, String destinyCustomerId);
 }

@@ -1,9 +1,11 @@
 package com.banking.account.service.app.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,7 +38,9 @@ public class Restriction {
 	
 	private Boolean haveExpirationDate;
 	
-	private Date expirationDay = null;
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	private LocalDate expirationDay = null;
 	
-	private Date createAt;
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	private LocalDate createAt;
 }

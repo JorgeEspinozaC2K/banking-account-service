@@ -1,10 +1,13 @@
 package com.banking.account.service.app.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.banking.account.service.app.entity.Customer;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,8 +30,8 @@ public class Account {
 	private Long accountNumber;
 	
 	//Account owners, titled
-	private List<String> owners;
-	private List<String> authorities;
+	private List<Customer> owners;
+	private List<Customer> authorities;
 	
 	//Type account
 	private Integer productType;
@@ -38,14 +41,23 @@ public class Account {
 	private Boolean offer = false;
 	//Number monthly movements
 	private Integer monthMoves;
-	//Record withdrawal date 
-	private Date witdrawalDay;
+	
+	//Record withdrawal date
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	private LocalDate witdrawalDay;
+	
 	//Record deposit date
-	private Date depositDay;
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	private LocalDate depositDay;
+	
 	//Current Balance
 	private Double amountLeft = 0.00;
+	
 	//Date modify
-	private Date modify;
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	private LocalDate modify;
+	
 	//Date of creation
-	private Date createAt;
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	private LocalDate createAt;
 }
