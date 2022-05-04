@@ -17,7 +17,12 @@
 # For more information on the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # For more samples to get started with GitHub Action workflows to deploy to Azure: https://github.com/Azure/actions-workflow-samples
 
+# File: .github/workflows/OIDC_workflow.yml
+
 name: Build and deploy JAR app to Azure Web App
+permissions:
+      id-token: write
+      contents: read
 
 env:
   AZURE_WEBAPP_NAME: banking-account-service    # set this to the name of your Azure Web App
@@ -65,7 +70,15 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: java-app
-
+      
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+      - run: |
+          az webapp list --query "[?state=='Running']"
+      
+  
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
