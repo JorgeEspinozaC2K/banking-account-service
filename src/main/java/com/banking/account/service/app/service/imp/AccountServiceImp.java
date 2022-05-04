@@ -241,4 +241,15 @@ public class AccountServiceImp implements AccountService {
 		}
 		return Mono.error(new InterruptedException("Operation error"));
 	}
+	
+	/**
+	 * if (customer.getIsTributary()) {
+					customer.setIsPyme(customer.getIsVip() ? false : customer.getIsPyme());
+					customer.setPersonalIdentifier(null);
+				}
+
+				customer.setTributaryIdentifier(!customer.getIsTributary() ? null : customer.getTributaryIdentifier());
+
+				customer.setIsVip(customer.getIsPyme() ? false : customer.getIsVip());
+	 */
 }

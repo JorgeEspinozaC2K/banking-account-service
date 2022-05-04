@@ -30,13 +30,17 @@ public class Restriction {
 	
 	private Double maintCommission;
 	
-	private Boolean hasMaxMove;
-	
 	private Integer maxMovements;
 	
 	private Boolean hasSpecificDay;
 	
 	private Boolean haveExpirationDate;
+	
+	private Boolean isForPersonalUse;
+	
+	private Boolean needCreditCard;
+	
+	private Double minAmountInAccount = 0.0;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate expirationDay = null;
