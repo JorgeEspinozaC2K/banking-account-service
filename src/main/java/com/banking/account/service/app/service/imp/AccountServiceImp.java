@@ -129,7 +129,9 @@ public class AccountServiceImp implements AccountService {
 										.flatMap( accData ->{
 											if (accData.getAuthorities().stream().anyMatch(c->c.getId().equalsIgnoreCase(customerId))
 													|| accData.getOwners().stream().anyMatch(c->c.getId().equalsIgnoreCase(customerId))) {
-												return accountWebClient.createCard(cardNumberCreation(0L), customerId, accountId);
+												return cardNumberCreation(0L).flatMap(cardNumber->{
+													return accountWebClient.createCard(cardNumber, customerId, accountId);
+												});
 											}
 											else {
 												return Mono.error(new InterruptedException("Data does not correspond"));
@@ -152,31 +154,34 @@ public class AccountServiceImp implements AccountService {
 			}
 			else {
 				
-				Mono<List<Card>> allCards = accountWebClient.findCustomerCards(customerId)
+				return accountWebClient.findCustomerCards(customerId)
 						.switchIfEmpty(Flux.error(new InterruptedException("Customer not found")))
-						.collectList();
-				
-				for(Card c : allCards.block()) {
-					List<AccountReduced> basicList = c.getAllAccounts();
-					basicList.add(new AccountReduced(accountId));
-					c.setAllAccounts(basicList);
-					accountWebClient.updateCustomerCards(c);
+						.collectList()
+						.map(cards->{
+							for(Card c : cards) {
+								List<AccountReduced> basicList = c.getAllAccounts();
+								basicList.add(new AccountReduced(accountId));
+								c.setAllAccounts(basicList);
+								accountWebClient.updateCustomerCards(c);
+							}
+							return cards;
+						})
+						.flatMapMany(Flux::fromIterable);
 				}
-				return accountWebClient.findCustomerCards(customerId);
-			}
 		});
 	}
 
-	public Long cardNumberCreation(Long cardNumber) {
+	public Mono<Long> cardNumberCreation(Long cardNumber) {
 		Long crn = Long.parseLong(String.format("%16d",ThreadLocalRandom.current().nextLong(9999999999999999L)));
 		if (cardNumber == 0L) {
 			return cardNumberCreation(Math.abs(crn));
 		}else {
-			Long cn = accountWebClient.findCard(cardNumber)
+			return accountWebClient.findCard(cardNumber)
 					.defaultIfEmpty(new Card())
-					.block().getCardNumber();
+					.flatMap(card -> card.getId()==null? 
+							Mono.just(cardNumber):
+								cardNumberCreation(Math.abs(crn)));
 			
-			return cn == null ? cn : cardNumberCreation(Math.abs(crn));
 		}
 	}
 
@@ -191,55 +196,63 @@ public class AccountServiceImp implements AccountService {
 	@Override
 	public Mono<Double> amountUpdate(String accountId, String customerId, Double accountChange, Integer operation, String destinyAccountId, String destinyCustomerId) {
 		
-		
-		Mono<List<Account>> customerAllAccounts = findByCustomerId(customerId).collectList();
-		
-		if (customerAllAccounts == null) {
-			return Mono.error(new InterruptedException("Accounts not found"));
-		}
-		switch (operation) {
-		case 0:
-			Integer accountWitdrawCounter = 0;
-			for(Account account :customerAllAccounts.block()) {
-				accountWitdrawCounter++;
-				if (account.getAmountLeft() >= accountChange) {
-					account.setAmountLeft(account.getAmountLeft()  - accountChange);
-					return Mono.just(accountRepository.save(account).block().getAmountLeft());
-				}
-				else {
-					if(accountWitdrawCounter == customerAllAccounts.block().size()) {
-						return Mono.error(new InterruptedException("Operation error not enought funds"));
+		return findByCustomerId(customerId)
+		.switchIfEmpty(Mono.error(new InterruptedException("Accounts not found")))
+		.collectList()
+		.flatMap(customer->{
+			switch (operation) {
+			case 0:
+				Integer accountWitdrawCounter = 0;
+				for(Account account :customer) {
+					accountWitdrawCounter++;
+					if (account.getAmountLeft() >= accountChange) {
+						account.setAmountLeft(account.getAmountLeft()  - accountChange);
+						return accountRepository.save(account)
+								.flatMap(accSaved->{
+									return Mono.just(accSaved.getAmountLeft());
+								});
+					}
+					else {
+						if(accountWitdrawCounter == customer.size()) {
+							return Mono.error(new InterruptedException("Operation error not enought funds"));
+						}
 					}
 				}
-			}
-			break;
-		case 1:
-			for(Account account :customerAllAccounts.block()) {
-				if (account.getId() == accountId) {
-					account.setAmountLeft(account.getAmountLeft()  + accountChange);
-					return Mono.just(accountRepository.save(account).block().getAmountLeft());
-				}
-			}
-			break;
-		case 2:
-			Integer accountTransferCounter = 0;
-			for(Account account :customerAllAccounts.block()) {
-				if (account.getAmountLeft() >= accountChange) {
-					account.setAmountLeft(account.getAmountLeft()  - accountChange);
-					amountUpdate(destinyAccountId,destinyCustomerId,accountChange,1,null,null);
-					return Mono.just(accountRepository.save(account).block().getAmountLeft());
-				}
-				else {
-					if(accountTransferCounter == customerAllAccounts.block().size()) {
-						return Mono.error(new InterruptedException("Operation error not enought funds"));
+				break;
+			case 1:
+				for(Account account :customer) {
+					if (account.getId() == accountId) {
+						account.setAmountLeft(account.getAmountLeft()  + accountChange);
+						return accountRepository.save(account)
+								.flatMap(accSaved->{
+									return Mono.just(accSaved.getAmountLeft());
+								});
 					}
 				}
+				break;
+			case 2:
+				Integer accountTransferCounter = 0;
+				for(Account account :customer) {
+					if (account.getAmountLeft() >= accountChange) {
+						account.setAmountLeft(account.getAmountLeft()  - accountChange);
+						amountUpdate(destinyAccountId,destinyCustomerId,accountChange,1,null,null);
+						return accountRepository.save(account)
+								.flatMap(accSaved->{
+									return Mono.just(accSaved.getAmountLeft());
+								});
+					}
+					else {
+						if(accountTransferCounter == customer.size()) {
+							return Mono.error(new InterruptedException("Operation error not enought funds"));
+						}
+					}
+				}
+				break;
+			default:
+				return Mono.error(new InterruptedException("Operation inexistent"));
 			}
-			break;
-		default:
-			return Mono.error(new InterruptedException("Operation inexistent"));
-		}
-		return Mono.error(new InterruptedException("Operation error"));
+			return Mono.error(new InterruptedException("Operation error"));
+		});
 	}
 	
 	/**
