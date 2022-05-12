@@ -29,7 +29,8 @@ public class AccountServiceImp implements AccountService {
 	//dependency injection required for the class work
 	private AccountRepository accountRepository;
 	
-	private AccountWebClient accountWebClient = new AccountWebClient();
+	@Autowired
+	private AccountWebClient accountWebClient;
 	
 	@Override
 	//returns a data stream, 
